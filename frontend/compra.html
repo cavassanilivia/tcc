@@ -12,8 +12,7 @@
   body {
     background-color: #f3f3f3;
   }
-</style>
-
+  </style>
 
   <header>
     <div class="header-top">
@@ -33,17 +32,15 @@
         </ul>
       </nav>
     </div>
-    </header>
-    
+  </header>
 
   <main id="conteudo">
     <div id="sr-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
     <section class="titulo-degrade speakable" aria-labelledby="compra-title">
-  <h2 id="compra-title">Calculadora de Orçamento</h2>
-  <p>Defina ambientes e área para estimar sensores e custos. Depois finalize a compra.</p>
-</section>
-
+      <h2 id="compra-title">Calculadora de Orçamento</h2>
+      <p>Defina ambientes e área para estimar sensores e custos. Depois finalize a compra.</p>
+    </section>
 
     <section class="compra-grid" aria-label="Orçamento e Compra">
       <!-- Calculadora -->
@@ -80,29 +77,26 @@
 
         <div id="tabela-itens" class="tabela-orcamento" role="table" aria-label="Itens do orçamento"></div>
 
-        <p id="total-geral" class="total-geral speakable" aria-live="polite">Total estimado: R$ 0,00</p>
+        <p id="total-geral" class="total-geral speakable" aria-live="polite">
+          Total estimado: R$ 0,00
+        </p>
 
         <hr />
 
         <form id="form-compra" class="form-elevada" aria-labelledby="buy-title">
           <h4 id="buy-title" class="speakable">Finalizar compra</h4>
 
-          <div class="grid-2">
-            <div class="field">
-              <label for="pagamento">Forma de pagamento <span class="req">*</span></label>
-              <select id="pagamento" required>
-                <option value="">Selecione</option>
-                <option value="pix">PIX</option>
-                <option value="cartao">Cartão</option>
-                <option value="boleto">Boleto</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="quantidade">Ambientes (qtd.)</label>
-              <input id="quantidade" type="number" min="1" step="1" value="3" readonly />
-            </div>
+          <div class="field">
+            <label for="pagamento">Forma de pagamento <span class="req">*</span></label>
+            <select id="pagamento" required>
+              <option value="">Selecione</option>
+              <option value="pix">PIX</option>
+              <option value="cartao">Cartão</option>
+              <option value="boleto">Boleto</option>
+            </select>
           </div>
 
+          <!-- Mantém infos para backend -->
           <input type="hidden" id="valorEstimado" />
           <input type="hidden" id="orcamento-json" />
 

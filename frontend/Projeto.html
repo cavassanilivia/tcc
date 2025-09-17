@@ -12,6 +12,23 @@
   body {
     background-color: #f3f3f3; /* cor clara (exemplo) */
   }
+
+  /* Ajuste do título principal */
+  .titulo-degrade h2 {
+    font-size: 2rem;        /* tamanho menor e elegante */
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 0.5em;
+    color: #003080;         /* azul padrão Access Path */
+  }
+
+  .titulo-degrade p {
+    font-size: 1.1rem;      /* texto menor e mais leve */
+    text-align: center;
+    color: #444;            /* cinza suave */
+    max-width: 800px;
+    margin: 0 auto;         /* centraliza horizontalmente */
+  }
 </style>
 
   <header>
@@ -35,6 +52,14 @@
   </header>
 
   <main class="alt-layout">
+
+    <!-- ======================
+         TÍTULO DO PROJETO
+         ====================== -->
+    <section class="titulo-degrade speakable" aria-labelledby="proj-title">
+      <h2 id="proj-title">Projeto educacional realizado pelo SENAI</h2>
+      <p>O Access Path é um projeto desenvolvido no curso técnico de Desenvolvimento de Sistemas, unindo tecnologia e inclusão social.</p>
+    </section>
 
     <!-- ======================
          PROBLEMATIZAÇÃO

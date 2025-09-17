@@ -699,4 +699,5 @@
   setupGate();
   window.addEventListener('storage',(e)=>{ if(e.key==='ap_auth'||e.key==='ap_user'){ renderAuthBadge(); } });
 
+  
 })();
