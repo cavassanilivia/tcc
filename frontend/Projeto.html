@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Access Path - Projeto</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  
+<style>
+  body {
+    background-color: #f3f3f3; /* cor clara (exemplo) */
+  }
+</style>
+
+  <header>
+    <div class="header-top">
+      <a href="index.html" class="brand" aria-label="Página inicial Acess Path">
+        <img src="imagens/logo_access.png" alt="Logo Acess Path" class="logo" />
+        <p class="slogan">Tecnologia que abre caminhos</p>
+      </a>
+
+      <nav class="main-nav" aria-label="Principal">
+        <ul>
+          <li><a class="speakable" href="index.html">Início</a></li>
+          <li><a class="speakable" href="Projeto.html">Projeto</a></li>
+          <li><a class="speakable" href="cadastro.html">Cadastro</a></li>
+          <li><a class="speakable" href="compra.html">Compra</a></li>
+          <li><a class="speakable" href="contato.html">Contato</a></li>
+          <!-- badge “✅ Logado: …” e link “Sair” vêm do script.js -->
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="alt-layout">
+
+    <!-- ======================
+         PROBLEMATIZAÇÃO
+         ====================== -->
+    <div class="qs-row">
+      <div class="qs-col text">
+        <h2>Problematização</h2>
+        <p>
+          A acessibilidade ainda representa um grande desafio em instituições de ensino,
+          especialmente quando se trata de pessoas com deficiência visual ou baixa mobilidade.
+          A circulação em escolas, universidades e centros de formação pode se tornar um obstáculo diário,
+          pois a sinalização visual, os mapas e até mesmo a orientação oral nem sempre garantem autonomia e segurança.
+        </p>
+        <p>
+          Sem recursos tecnológicos inclusivos, muitos alunos e visitantes ficam dependentes de terceiros,
+          reforçando barreiras sociais e limitando sua independência.
+        </p>
+      </div>
+      <div class="qs-col media">
+        <img src="imagens/homem.jpg" alt="Imagem homem">
+      </div>
+    </div>
+
+    <!-- ======================
+         PROPOSTA DE SOLUÇÃO
+         ====================== -->
+    <div class="qs-row">
+      <div class="qs-col text">
+        <h2>Proposta de Solução</h2>
+        <p>
+          O Access Path é um sistema de IoT e nuvem que mapeia ambientes com sensores RFID e
+          oferece orientação auditiva em tempo real. O protótipo utiliza um ESP32 conectado a um
+          leitor RFID e a um fone de ouvido. As áreas são sinalizadas com tags RFID
+          (cada uma com um identificador único).
+        </p>
+        <p>
+          Ao detectar uma tag, o código é enviado ao servidor, que identifica o local e retorna a
+          informação por áudio, como “Você está no refeitório”, “Você está na biblioteca” ou “Você está na sala 102”.
+        </p>
+      </div>
+      <div class="qs-col media">
+        <img src="imagens/img.rfid.png" alt="Imagem de RFID">
+      </div>
+    </div>
+
+    <!-- ======================
+         MOTIVAÇÃO
+         ====================== -->
+    <div class="qs-row">
+      <div class="qs-col text">
+        <h2>Motivação</h2>
+        <p>
+          A motivação surgiu ao percebermos que a acessibilidade ainda é tratada como secundária
+          nas instituições de ensino, quando deveria ser central. Observando as dificuldades de
+          pessoas com deficiência no dia a dia, vimos que a tecnologia pode reduzir desigualdades
+          e aumentar a independência.
+        </p>
+        <p>
+          O projeto também permite aplicar programação, eletrônica e banco de dados em um trabalho com propósito social.
+        </p>
+      </div>
+      <div class="qs-col media">
+        <img src="imagens/diversidade.jpg" alt="Pessoas em roda de conversa">
+      </div>
+    </div>
+
+    <!-- ======================
+         IMPORTÂNCIA
+         ====================== -->
+    <div class="qs-row">
+      <div class="qs-col media">
+        <img src="imagens/equipe.jpg" alt="Mãos unidas em equipe">
+      </div>
+      <div class="qs-col text">
+        <h2>Importância</h2>
+        <p>
+          O projeto promove inclusão e igualdade de oportunidades no ambiente escolar.
+          A acessibilidade é um direito de todos. Ao orientar alunos e visitantes com deficiência visual,
+          contribuímos para uma escola mais justa, moderna e comprometida com a diversidade.
+        </p>
+        <p>
+          Há também relevância acadêmica e tecnológica: IoT, APIs, integração de hardware e software
+          e aplicação prática de programação e banco de dados.
+        </p>
+      </div>
+    </div>
+
+    <!-- ======================
+         CONCLUSÃO
+         ====================== -->
+    <div class="qs-row media-side" id="conclusao">
+      <div class="qs-col text">
+        <h2>Conclusão</h2>
+        <p>
+          O Access Path busca atender demandas técnicas e acadêmicas e, principalmente,
+          ampliar a inclusão social no ambiente escolar. Nosso objetivo é oferecer um recurso
+          inovador que aumente autonomia, participação e convivência para todos.
+        </p>
+      </div>
+      <div class="qs-col media">
+        <img src="imagens/logo com a fonte preta.png" alt="Logo Access Path">
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="speakable">
+    <p>© 2025 Access Path - Todos os direitos reservados.</p>
+  </footer>
+
+  <!-- Botão de VOZ + toast -->
+  <button id="tts-mini" type="button" title="Leitor de voz" aria-label="Leitor de voz">🔊</button>
+  <div id="tts-toast" role="status" aria-live="polite"></div>
+
+  <!-- VLibras -->
+  <div vw class="enabled" aria-label="Ativar tradução para Libras">
+    <div vw-access-button class="active" role="button" aria-label="Abrir tradutor VLibras"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper" aria-live="polite" aria-atomic="true"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <!-- Desativa o gate nesta página (remova para reativar) -->
+  <script>window.AP_DISABLE_GATE = true;</script>
+
+  <!-- Script global -->
+  <script src="script.js" defer></script>
+
+</body>
+</html>

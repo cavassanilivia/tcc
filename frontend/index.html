@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acess Path - Página Inicial</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Seu JS principal (carrossel, formulários e TTS). Carrega assíncrono. -->
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <header>
+    <div class="header-top">
+      <a href="index.html" class="brand" aria-label="Página inicial Acess Path">
+        <img src="imagens/logo_access.png" alt="Logo Acess Path" class="logo" />
+        <p class="slogan">Tecnologia que abre caminhos</p>
+      </a>
+
+      <nav class="main-nav" aria-label="Principal">
+        <ul>
+          <!-- removida a classe 'speakable' dos links para evitar leitura ao navegar -->
+          <li><a href="index.html">Início</a></li>
+          <li><a href="Projeto.html">Projeto</a></li>
+          <li><a href="cadastro.html">Cadastro</a></li>
+          <li><a href="compra.html">Compra</a></li>
+          <li><a href="contato.html">Contato</a></li>
+        </ul>
+      </nav>
+    </div> <!-- ✅ fecha .header-top -->
+  </header>
+
+  <main id="conteudo">
+    <!-- Região para mensagens de status acessíveis -->
+    <div id="sr-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Carrossel com fade -->
+<section class="carousel-fade" aria-roledescription="carousel" aria-label="Destaques" data-interval="5000">
+  <div class="slide active">
+    <img src="imagens/1.png" alt="Pessoa cega sorrindo com a bengala" />
+  </div>
+  <div class="slide">
+    <img src="imagens/2.png" alt="Profissionais de saúde apoiando um paciente" />
+  </div>
+
+  <button class="prev" type="button" aria-label="Slide anterior"></button>
+  <button class="next" type="button" aria-label="Próximo slide"></button>
+
+  <!-- Indicadores (o JS vai criar as bolinhas aqui) -->
+  <div class="indicators" role="tablist" aria-label="Indicadores do carrossel"></div>
+</section>
+<br>
+
+    <!-- Seção Hero -->
+    <section class="hero speakable">
+      <h2>Navegue com autonomia</h2>
+      <p>O Acess Path é um dispositivo com RFID integrado em fones, que guia pessoas com deficiência visual em hospitais, shoppings e outros ambientes.</p>
+      <a href="Projeto.html" class="btn">Conheça Mais</a>
+    </section>
+
+    <!-- Seção Benefícios -->
+    <!-- Seção Benefícios -->
+<section class="beneficios speakable">
+  <center><h2>Por que escolher o Acess Path?</h2></center>
+
+  <div class="cards">
+    <div class="card">
+      <span class="ico ico-acess" role="img" aria-label="Acessibilidade"></span>
+      <h3>Acessibilidade</h3>
+      <p>Guias por áudio direto nos fones para navegação em ambientes complexos.</p>
+    </div>
+
+    <div class="card">
+      <span class="ico ico-rfid" role="img" aria-label="Tecnologia RFID"></span>
+      <h3>Tecnologia RFID</h3>
+      <p>Localização precisa em hospitais, shoppings, escolas e empresas.</p>
+    </div>
+
+    <div class="card">
+      <span class="ico ico-seguranca" role="img" aria-label="Segurança"></span>
+      <h3>Segurança</h3>
+      <p>Permite trajetos confiáveis e independentes, sem riscos de se perder.</p>
+    </div>
+  </div>
+</section>
+
+
+
+    <!-- ============================
+         BLOG (editorial, sem blocos quadrados)
+         ============================ -->
+    <section id="blog" class="blog-area speakable" aria-labelledby="blog-title">
+      <div class="blog-header">
+        <h2 id="blog-title">Blog • Acessibilidade & Inclusão</h2>
+        <span class="post-kicker" aria-hidden="true">Atualizado</span>
+      </div>
+      <p class="blog-lead">
+        Seleção de leituras essenciais sobre acessibilidade, notícias e inclusão. Todos os links abrem em nova aba.
+      </p>
+
+      <div class="post-list" role="list">
+        <!-- 1) Importância / WCAG (W3C) -->
+        <a class="post-item" role="listitem"
+           href="https://www.w3.org/WAI/standards-guidelines/wcag/"
+           target="_blank" rel="noopener"
+           aria-label="Por que acessibilidade importa? Conheça as diretrizes WCAG, abre em nova aba">
+          <div>
+            <div class="post-meta">
+              <span class="post-kicker">Guia</span>
+              <time datetime="2025-02-01">1 fev 2025</time>
+              <span>• W3C WAI</span>
+            </div>
+            <div class="post-title">Por que acessibilidade importa? Comece pelas WCAG</div>
+            <div class="post-desc">Entenda princípios e critérios (WCAG 2.2) para tornar sites e apps utilizáveis por todos.</div>
+          </div>
+          <div class="post-cta" aria-hidden="true">Ler no W3C</div>
+        </a>
+
+        <!-- 2) Notícias / Apple (Newsroom) -->
+        <a class="post-item" role="listitem"
+           href="https://www.apple.com/newsroom/2025/05/apple-unveils-powerful-accessibility-features-coming-later-this-year/"
+           target="_blank" rel="noopener"
+           aria-label="Novos recursos de acessibilidade da Apple, abre em nova aba">
+          <div>
+            <div class="post-meta">
+              <span class="post-kicker">Notícias</span>
+              <time datetime="2025-05-13">13 mai 2025</time>
+              <span>• Apple Newsroom</span>
+            </div>
+            <div class="post-title">Apple anuncia novos recursos de acessibilidade</div>
+            <div class="post-desc">Braille Access, melhorias de lupa e rótulos de acessibilidade na App Store.</div>
+          </div>
+          <div class="post-cta" aria-hidden="true">Ler na Apple</div>
+        </a>
+
+        <!-- 3) Base legal no Brasil (Planalto/LBI) -->
+        <a class="post-item" role="listitem"
+           href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13146.htm"
+           target="_blank" rel="noopener"
+           aria-label="Lei Brasileira de Inclusão Lei 13.146, abre em nova aba">
+          <div>
+            <div class="post-meta">
+              <span class="post-kicker">Legislação</span>
+              <time datetime="2015-07-06">6 jul 2015</time>
+              <span>• Planalto</span>
+            </div>
+            <div class="post-title">Lei Brasileira de Inclusão (Lei nº 13.146/2015)</div>
+            <div class="post-desc">Marco legal da acessibilidade e inclusão no Brasil — referência para ambientes físicos e digitais.</div>
+          </div>
+          <div class="post-cta" aria-hidden="true">Ler no Planalto</div>
+        </a>
+
+        <!-- 4) Políticas de Acessibilidade no Brasil (WAI) -->
+        <a class="post-item" role="listitem"
+           href="https://www.w3.org/WAI/policies/brazil/"
+           target="_blank" rel="noopener"
+           aria-label="Políticas de Acessibilidade: Brasil, W3C WAI, abre em nova aba">
+          <div>
+            <div class="post-meta">
+              <span class="post-kicker">Referência</span>
+              <time datetime="2024-01-01">2024</time>
+              <span>• W3C WAI</span>
+            </div>
+            <div class="post-title">Panorama de políticas de acessibilidade no Brasil</div>
+            <div class="post-desc">Compilado do W3C WAI com leis e normas de acessibilidade aplicáveis no país.</div>
+          </div>
+          <div class="post-cta" aria-hidden="true">Ver no WAI</div>
+        </a>
+
+        <!-- 5) Pesquisa WebAIM (tendências leitores de tela) -->
+        <a class="post-item" role="listitem"
+           href="https://webaim.org/projects/screenreadersurvey10/"
+           target="_blank" rel="noopener"
+           aria-label="WebAIM Screen Reader User Survey 10, abre em nova aba">
+          <div>
+            <div class="post-meta">
+              <span class="post-kicker">Pesquisa</span>
+              <time datetime="2024-12-01">2024</time>
+              <span>• WebAIM</span>
+            </div>
+            <div class="post-title">Tendências de uso de leitores de tela</div>
+            <div class="post-desc">Preferências e hábitos de usuários de NVDA, JAWS, VoiceOver e mais.</div>
+          </div>
+          <div class="post-cta" aria-hidden="true">Ler na WebAIM</div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="speakable">
+    <p>&copy; 2025 Acess Path - Todos os direitos reservados.</p>
+  </footer> 
+
+  <!-- Botão de VOZ (fica ACIMA do VLibras) + toast -->
+  <button id="tts-mini" type="button" title="Leitor de voz" aria-label="Leitor de voz">🔊</button>
+  <div id="tts-toast" role="status" aria-live="polite"></div>
+
+  <!-- VLibras (oficial) -->
+  <div vw class="enabled" aria-label="Ativar tradução para Libras">
+    <div vw-access-button class="active" role="button" aria-label="Abrir tradutor VLibras"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper" aria-live="polite" aria-atomic="true"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+</body>
+</html>

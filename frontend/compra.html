@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Access Path - Compra</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <style>
+  body {
+    background-color: #f3f3f3;
+  }
+</style>
+
+
+  <header>
+    <div class="header-top">
+      <a href="index.html" class="brand" aria-label="Página inicial Acess Path">
+        <img src="imagens/logo_access.png" alt="Logo Acess Path" class="logo" />
+        <p class="slogan">Tecnologia que abre caminhos</p>
+      </a>
+
+      <nav class="main-nav" aria-label="Principal">
+        <ul>
+          <li><a class="speakable" href="index.html">Início</a></li>
+          <li><a class="speakable" href="Projeto.html">Projeto</a></li>
+          <li><a class="speakable" href="cadastro.html">Cadastro</a></li>
+          <li><a class="speakable" href="compra.html">Compra</a></li>
+          <li><a class="speakable" href="contato.html">Contato</a></li>
+          <!-- badge “✅ Logado: …” e link “Sair” vêm do script.js -->
+        </ul>
+      </nav>
+    </div>
+    </header>
+    
+
+  <main id="conteudo">
+    <div id="sr-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+    <section class="titulo-degrade speakable" aria-labelledby="compra-title">
+  <h2 id="compra-title">Calculadora de Orçamento</h2>
+  <p>Defina ambientes e área para estimar sensores e custos. Depois finalize a compra.</p>
+</section>
+
+
+    <section class="compra-grid" aria-label="Orçamento e Compra">
+      <!-- Calculadora -->
+      <form id="form-orcamento" class="card form-elevada" aria-labelledby="calc-title">
+        <h3 id="calc-title" class="speakable">Parâmetros do ambiente</h3>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="ambientes">Quantidade de ambientes <span class="req">*</span></label>
+            <input id="ambientes" type="number" min="1" step="1" value="3" required />
+          </div>
+          <div class="field">
+            <label for="areaTotal">Área total (m²) <span class="req">*</span></label>
+            <input id="areaTotal" type="number" min="1" step="1" value="120" required />
+          </div>
+        </div>
+
+        <!-- Valores fixos (ocultos) -->
+        <input type="hidden" id="precoSensor" value="199.90" />
+        <input type="hidden" id="precoFone" value="899.00" />
+        <input type="hidden" id="precoMaoObra" value="250.00" />
+        <input type="hidden" id="m2PorSensor" value="50" />
+        <input type="hidden" id="minSensorAmb" value="1" />
+
+        <div class="actions">
+          <button id="btnCalcular" type="button" class="btn">Calcular orçamento</button>
+        </div>
+      </form>
+      <br>
+
+      <!-- Resultado + Compra -->
+      <section id="resultado-orcamento" class="card" aria-labelledby="result-title">
+        <h3 id="result-title" class="speakable">Resumo do orçamento</h3>
+
+        <div id="tabela-itens" class="tabela-orcamento" role="table" aria-label="Itens do orçamento"></div>
+
+        <p id="total-geral" class="total-geral speakable" aria-live="polite">Total estimado: R$ 0,00</p>
+
+        <hr />
+
+        <form id="form-compra" class="form-elevada" aria-labelledby="buy-title">
+          <h4 id="buy-title" class="speakable">Finalizar compra</h4>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="pagamento">Forma de pagamento <span class="req">*</span></label>
+              <select id="pagamento" required>
+                <option value="">Selecione</option>
+                <option value="pix">PIX</option>
+                <option value="cartao">Cartão</option>
+                <option value="boleto">Boleto</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="quantidade">Ambientes (qtd.)</label>
+              <input id="quantidade" type="number" min="1" step="1" value="3" readonly />
+            </div>
+          </div>
+
+          <input type="hidden" id="valorEstimado" />
+          <input type="hidden" id="orcamento-json" />
+
+          <div class="actions">
+            <button type="submit" class="btn">Registrar pedido</button>
+            <p class="hint">Você precisa estar logado para concluir.</p>
+          </div>
+        </form>
+      </section>
+    </section>
+  </main>
+
+  <footer class="speakable">
+    <p>&copy; 2025 Access Path - Todos os direitos reservados</p>
+  </footer>
+
+  <!-- Botão de VOZ + toast -->
+  <button id="tts-mini" type="button" title="Leitor de voz" aria-label="Leitor de voz">🔊</button>
+  <div id="tts-toast" role="status" aria-live="polite"></div>
+
+  <!-- VLibras -->
+  <div vw class="enabled" aria-label="Ativar tradução para Libras">
+    <div vw-access-button class="active" role="button" aria-label="Abrir tradutor VLibras"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper" aria-live="polite" aria-atomic="true"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <!-- Desativa o gate nesta página (remova para reativar) -->
+  <script>window.AP_DISABLE_GATE = true;</script>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

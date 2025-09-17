@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Access Path - Contato</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<style>
+  body {
+    background-color: #f3f3f3; /* cor clara (exemplo) */
+  }
+</style>
+
+  <header>
+    <div class="header-top">
+      <a href="index.html" class="brand" aria-label="Página inicial Acess Path">
+        <img src="imagens/logo_access.png" alt="Logo Acess Path" class="logo" />
+        <p class="slogan">Tecnologia que abre caminhos</p>
+      </a>
+
+      <nav class="main-nav" aria-label="Principal">
+        <ul>
+          <li><a class="speakable" href="index.html">Início</a></li>
+          <li><a class="speakable" href="Projeto.html">Projeto</a></li>
+          <li><a class="speakable" href="cadastro.html">Cadastro</a></li>
+          <li><a class="speakable" href="compra.html">Compra</a></li>
+          <li><a class="speakable" href="contato.html">Contato</a></li>
+        </ul>
+      </nav>
+  </header>
+
+
+  <main id="conteudo">
+    <!-- Região de mensagens acessíveis -->
+    <div id="sr-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+    <section class="titulo-degrade speakable" aria-labelledby="contato-title">
+      <h2 id="contato-title">Fale Conosco</h2>
+      <p>Quer saber mais sobre o Access Path ou propor parcerias? Nossa equipe está à disposição para trocar ideias e expandir o alcance desta solução inclusiva.</p>
+ </section>
+      
+
+      <form id="form-contato" class="form-elevada" novalidate>
+  <div class="grid-2">
+    <div class="field">
+      <label for="nome">Nome completo <span class="req" aria-hidden="true">*</span></label>
+      <input type="text" id="nome" name="name" autocomplete="name" placeholder="Seu nome" required />
+      <small class="hint">Como está no documento.</small>
+    </div>
+
+    <div class="field">
+      <label for="email">E-mail <span class="req" aria-hidden="true">*</span></label>
+      <input type="email" id="email" name="email" autocomplete="email" placeholder="voce@exemplo.com" required />
+      <small class="hint">Usaremos para responder você.</small>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="field">
+      <label for="telefone">Telefone</label>
+      <input type="tel" id="telefone" name="tel" inputmode="tel" autocomplete="tel"
+             placeholder="(11) 91234-5678" aria-describedby="tel-ajuda" />
+      <small id="tel-ajuda" class="hint">Opcional. Ex.: (11) 91234-5678</small>
+    </div>
+
+    <div class="field">
+      <label for="assunto">Assunto <span class="req" aria-hidden="true">*</span></label>
+      <select id="assunto" name="subject" required>
+        <option value="" disabled selected>Selecione…</option>
+        <option value="duvida">Dúvida</option>
+        <option value="suporte">Suporte</option>
+        <option value="sugestao">Sugestão</option>
+        <option value="outro">Outro</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="mensagem">Mensagem <span class="req" aria-hidden="true">*</span></label>
+    <textarea id="mensagem" name="message" rows="6" maxlength="600" required
+              placeholder="Conte os detalhes do que você precisa."></textarea>
+    <div class="field-meta">
+      <small class="hint">Seja claro e objetivo.</small>
+      <small class="counter" id="contagem">0/600</small>
+    </div>
+  </div>
+
+  <button type="submit" class="btn">Enviar</button>
+</form>
+
+    </section>
+  </main>
+
+  <footer class="speakable">
+    <p>&copy; 2025 Access Path - Todos os direitos reservados</p>
+  </footer>
+
+  <!-- Botão de VOZ (fica ACIMA do VLibras) + toast -->
+  <button id="tts-mini" type="button" title="Leitor de voz" aria-label="Leitor de voz">🔊</button>
+  <div id="tts-toast" role="status" aria-live="polite"></div>
+
+  <!-- VLibras (oficial) -->
+  <div vw class="enabled" aria-label="Ativar tradução para Libras">
+    <div vw-access-button class="active" role="button" aria-label="Abrir tradutor VLibras"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper" aria-live="polite" aria-atomic="true"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
