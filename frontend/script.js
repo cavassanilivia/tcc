@@ -258,3 +258,47 @@
   window.addEventListener('storage',(e)=>{ if(e.key==='ap_auth'||e.key==='ap_user'){ renderAuthBadge(); } });
 
 })();
+document.addEventListener('DOMContentLoaded', () => {
+  const tel = document.getElementById('su-telefone');
+  const signupForm = document.getElementById('form-cadastro-signup');
+
+  if (tel) {
+    tel.addEventListener('input', (e) => {
+      let v = e.target.value.replace(/\D/g, ''); // só números
+      if (v.length > 11) v = v.slice(0, 11);      // limita em 11 dígitos
+
+      if (v.length === 0) {
+        e.target.value = ''; // vazio mesmo
+      } else if (v.length <= 2) {
+        e.target.value = `(${v}`;
+      } else if (v.length <= 6) {
+        e.target.value = `(${v.slice(0, 2)}) ${v.slice(2)}`;
+      } else if (v.length <= 10) {
+        e.target.value = `(${v.slice(0, 2)}) ${v.slice(2, 6)}-${v.slice(6)}`;
+      } else {
+        e.target.value = `(${v.slice(0, 2)}) ${v.slice(2, 7)}-${v.slice(7)}`;
+      }
+    });
+  }
+
+  // validação extra no submit
+  if (signupForm) {
+    signupForm.addEventListener('submit', (ev) => {
+      const phoneVal = tel?.value?.trim() || '';
+      if (phoneVal) {
+        const digits = phoneVal.replace(/\D/g, '');
+        if (!(digits.length === 10 || digits.length === 11)) {
+          ev.preventDefault();
+          if (typeof toast === 'function') {
+            toast('Telefone inválido: use 10 ou 11 dígitos.');
+          } else {
+            alert('Telefone inválido: use 10 ou 11 dígitos.');
+          }
+          tel.focus();
+          return false;
+        }
+      }
+      return true;
+    });
+  }
+});
