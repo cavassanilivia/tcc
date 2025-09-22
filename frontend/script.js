@@ -322,3 +322,180 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+// script.js — Access Path (com Cadastro, Login, Compra e Contato)
+(function () {
+  "use strict";
+
+  /* ================= Utils: aria-live + toast ================= */
+  const srStatus = document.getElementById('sr-status');
+  const toastEl = document.getElementById('tts-toast');
+  function announce(msg) { if (!srStatus) return; srStatus.textContent = ''; setTimeout(() => srStatus.textContent = msg, 10); }
+  function toast(msg, ms = 2200) { if (!toastEl) { alert(msg); return; } toastEl.textContent = msg; toastEl.classList.add('show'); clearTimeout(toastEl._t); toastEl._t = setTimeout(() => toastEl.classList.remove('show'), ms); }
+
+  /* ================= Configuration ================= */
+  const CONFIG = {
+    apiBase:
+      (typeof window !== 'undefined' && window.AP_API_BASE) ||
+      (document.querySelector('meta[name="ap-api-base"]')?.getAttribute('content')) ||
+      'http://localhost:8080',
+    endpoints: {
+      signup: '/api/usuarios',
+      login: '/api/auth/login',
+      loginLegacy: '/api/auth/login-legacy',
+      usuariosLegacy: '/api/usuarios',
+      resolveByEmail: [
+        '/api/usuarios/by-email/{email}',
+        '/api/usuarios/by-email?email={email}',
+        '/api/usuarios/email/{email}',
+        '/api/usuarios?email={email}'
+      ],
+      compra: '/api/compras',
+      contato: '/api/contatos' // 👈 agora tem o endpoint de contato
+    },
+    redirectAfterAuth: (new URLSearchParams(location.search).get('redirect') || 'compra.html')
+  };
+
+  /* ================= API helper ================= */
+  const API_BASE =
+    (typeof window !== 'undefined' && window.AP_API_BASE) ||
+    (document.querySelector('meta[name="ap-api-base"]')?.getAttribute('content')) ||
+    'http://localhost:8080';
+
+  async function apiFetchJSON(path, opts = {}) {
+    const url = path.startsWith('http') ? path : `${API_BASE}${path}`;
+    let res;
+    try {
+      res = await fetch(url, {
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', ...(opts.headers || {}) },
+        ...opts
+      });
+    } catch (e) {
+      throw new Error('Falha de rede/CORS: ' + e.message);
+    }
+
+    const ct = res.headers.get('content-type') || '';
+    let payload = null, text = null;
+
+    if (ct.includes('application/json')) {
+      try { payload = await res.json(); } catch { }
+    } else {
+      try { text = await res.text(); } catch { }
+    }
+
+    if (!res.ok) {
+      const msg = (payload && (payload.message || payload.error)) || text || `HTTP ${res.status}`;
+      throw new Error(msg);
+    }
+
+    return payload ?? (text ? { message: text } : {});
+  }
+
+  /* ================= Cadastro ================= */
+  (function authForms() {
+    const formSignup = document.getElementById("form-cadastro-signup");
+    if (formSignup) {
+      formSignup.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const inVal = (id) => document.getElementById(id)?.value?.trim() || '';
+        const nome = inVal("su-nome"), telefone = inVal("su-telefone"),
+          email = inVal("su-email").toLowerCase(), email2 = inVal("su-email-conf").toLowerCase();
+        const s1 = document.getElementById("su-senha")?.value || '';
+        const s2 = document.getElementById("su-senha-conf")?.value || '';
+        const termos = document.getElementById("su-termos")?.checked;
+
+        if (!nome || !email || !email2 || email !== email2 || s1.length < 6 || s1 !== s2 || !termos) {
+          toast("Revise os campos: e-mails iguais, senhas (mín. 6) e aceite os termos."); return;
+        }
+
+        try {
+          await apiFetchJSON(CONFIG.endpoints.signup, {
+            method: "POST",
+            body: JSON.stringify({ nome, email, telefone, senha: s1 })
+          });
+
+          toast("Usuário cadastrado!");
+          location.href = CONFIG.redirectAfterAuth;
+        } catch (e1) {
+          toast("Erro ao cadastrar: " + e1.message);
+        }
+      });
+    }
+
+    /* ================= Login ================= */
+    const formLogin = document.getElementById("form-cadastro-login");
+    if (formLogin) {
+      formLogin.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("li-email")?.value?.trim().toLowerCase() || '';
+        const senha = document.getElementById("li-senha")?.value || '';
+        if (!email || !senha) { toast("Preencha e-mail e senha."); return; }
+
+        try {
+          await apiFetchJSON(CONFIG.endpoints.login, {
+            method: "POST",
+            body: JSON.stringify({ email, senha })
+          });
+          toast(`Bem-vindo(a), ${email}!`);
+          location.href = CONFIG.redirectAfterAuth;
+        } catch (e1) {
+          toast("Login inválido: " + (e1.message || "erro"));
+        }
+      });
+    }
+  })();
+
+  /* ================= Compra ================= */
+  const formCompra = document.getElementById("form-compra");
+  if (formCompra) {
+    formCompra.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const qtdSensores = document.getElementById("qtd-sensores")?.value || 0;
+      const descricao = document.getElementById("descricao")?.value.trim();
+
+      try {
+        await apiFetchJSON(CONFIG.endpoints.compra, {
+          method: "POST",
+          body: JSON.stringify({ qtdSensores, descricao })
+        });
+        toast("Compra registrada!");
+        formCompra.reset();
+      } catch (err) {
+        toast("Erro na compra: " + err.message);
+      }
+    });
+  }
+
+  /* ================= Contato (Fale Conosco) ================= */
+  const formContato = document.getElementById("form-contato");
+  if (formContato) {
+    formContato.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const nome = document.getElementById("nome")?.value.trim();
+      const email = document.getElementById("email")?.value.trim();
+      const telefone = document.getElementById("telefone")?.value.trim();
+      const assunto = document.getElementById("assunto")?.value;
+      const mensagem = document.getElementById("mensagem")?.value.trim();
+
+      if (!nome || !email || !assunto || !mensagem) {
+        toast("Preencha todos os campos obrigatórios.");
+        return;
+      }
+
+      try {
+        await apiFetchJSON(CONFIG.endpoints.contato, {
+          method: "POST",
+          body: JSON.stringify({ nome, email, telefone, assunto, mensagem })
+        });
+
+        toast("Mensagem enviada com sucesso!");
+        formContato.reset();
+      } catch (err) {
+        toast("Erro ao enviar: " + err.message);
+      }
+    });
+  }
+})();
+
+

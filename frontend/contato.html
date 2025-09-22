@@ -33,7 +33,6 @@
       </nav>
   </header>
 
-
   <main id="conteudo">
     <!-- Região de mensagens acessíveis -->
     <div id="sr-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
@@ -41,113 +40,111 @@
     <section class="titulo-degrade speakable" aria-labelledby="contato-title">
       <h2 id="contato-title">Fale Conosco</h2>
       <p>Quer saber mais sobre o Access Path ou propor parcerias? Nossa equipe está à disposição para trocar ideias e expandir o alcance desta solução inclusiva.</p>
- </section>
-      
-
-      <form id="form-contato" class="form-elevada" novalidate>
-  <div class="grid-2">
-    <div class="field">
-      <label for="nome">Nome completo <span class="req" aria-hidden="true">*</span></label>
-      <input type="text" id="nome" name="name" autocomplete="name" placeholder="Seu nome" required />
-      <small class="hint">Como está no documento.</small>
-    </div>
-
-    <div class="field">
-      <label for="email">E-mail <span class="req" aria-hidden="true">*</span></label>
-      <input type="email" id="email" name="email" autocomplete="email" placeholder="voce@exemplo.com" required />
-      <small class="hint">Usaremos para responder você.</small>
-    </div>
-  </div>
-
-  <div class="grid-2">
-    <div class="field">
-      <label for="telefone">Telefone</label>
-      <input type="tel" id="telefone" name="tel" inputmode="tel" autocomplete="tel"
-             placeholder="(11) 91234-5678" aria-describedby="tel-ajuda" />
-      <small id="tel-ajuda" class="hint">Opcional. Ex.: (11) 91234-5678</small>
-    </div>
-
-    <div class="field">
-      <label for="assunto">Assunto <span class="req" aria-hidden="true">*</span></label>
-      <select id="assunto" name="subject" required>
-        <option value="" disabled selected>Selecione…</option>
-        <option value="duvida">Dúvida</option>
-        <option value="suporte">Suporte</option>
-        <option value="sugestao">Sugestão</option>
-        <option value="outro">Outro</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="field">
-    <label for="mensagem">Mensagem <span class="req" aria-hidden="true">*</span></label>
-    <textarea id="mensagem" name="message" rows="6" maxlength="600" required
-              placeholder="Conte os detalhes do que você precisa."></textarea>
-    <div class="field-meta">
-      <small class="hint">Seja claro e objetivo.</small>
-      <small class="counter" id="contagem">0/600</small>
-    </div>
-  </div>
-
-  <button type="submit" class="btn">Enviar</button>
-</form>
-
     </section>
+
+    <form id="form-contato" class="form-elevada" novalidate>
+      <div class="grid-2">
+        <div class="field">
+          <label for="nome">Nome completo <span class="req" aria-hidden="true">*</span></label>
+          <input type="text" id="nome" name="name" autocomplete="name" placeholder="Seu nome" required />
+          <small class="hint">Como está no documento.</small>
+        </div>
+
+        <div class="field">
+          <label for="email">E-mail <span class="req" aria-hidden="true">*</span></label>
+          <input type="email" id="email" name="email" autocomplete="email" placeholder="voce@exemplo.com" required />
+          <small class="hint">Usaremos para responder você.</small>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="telefone">Telefone</label>
+          <input type="tel" id="telefone" name="tel" inputmode="tel" autocomplete="tel"
+                 placeholder="(11) 91234-5678"
+                 aria-describedby="tel-ajuda"
+                 maxlength="15" />
+          <small id="tel-ajuda" class="hint">Opcional. Ex.: (11) 91234-5678</small>
+        </div>
+
+        <div class="field">
+          <label for="assunto">Assunto <span class="req" aria-hidden="true">*</span></label>
+          <select id="assunto" name="subject" required>
+            <option value="" disabled selected>Selecione…</option>
+            <option value="duvida">Dúvida</option>
+            <option value="suporte">Suporte</option>
+            <option value="sugestao">Sugestão</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="mensagem">Mensagem <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="mensagem" name="message" rows="6" maxlength="600" required
+                  placeholder="Conte os detalhes do que você precisa."></textarea>
+        <div class="field-meta">
+          <small class="hint">Seja claro e objetivo.</small>
+          <small class="counter" id="contagem">0/600</small>
+        </div>
+      </div>
+
+      <button type="submit" class="btn">Enviar</button>
+    </form>
   </main>
 
-<footer class="site-footer">
-  <div class="footer-container">
+  <footer class="site-footer">
+    <div class="footer-container">
 
-    <!-- Coluna 1: Logo + Slogan -->
-    <div class="footer-col">
-      <img src="imagens/logo_access.png" alt="Logo Access Path" class="footer-logo">
-      <p class="footer-slogan">Tecnologia que abre caminhos</p>
-    </div>
-
-    <!-- Coluna 2: Links úteis -->
-    <div class="footer-col">
-      <h4>Links</h4>
-      <ul>
-        <li><a href="index.html">Início</a></li>
-        <li><a href="Projeto.html">Projeto</a></li>
-        <li><a href="cadastro.html">Cadastro</a></li>
-        <li><a href="compra.html">Compra</a></li>
-        <li><a href="contato.html">Contato</a></li>
-      </ul>
-    </div>
-
-    <!-- Coluna 3: Contato -->
-    <div class="footer-col">
-      <h4>Contato</h4>
-      <p>📧 <a href="mailto:projetosenai806@gmail.com">projetosenai806@gmail.com</a></p>
-      <p>📍 Itatiba - SP</p>
-      <p>☎ (11) 99999-9999</p>
-    </div>
-
-    <!-- Coluna 4: Redes Sociais -->
-    <div class="footer-col">
-      <h4>Siga-nos</h4>
-      <div class="footer-social">
-        <a href="https://facebook.com" target="_blank" aria-label="Facebook">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="https://instagram.com" target="_blank" aria-label="Instagram">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
-          <i class="fab fa-linkedin-in"></i>
-        </a>
+      <!-- Coluna 1: Logo + Slogan -->
+      <div class="footer-col">
+        <img src="imagens/logo_access.png" alt="Logo Access Path" class="footer-logo">
+        <p class="footer-slogan">Tecnologia que abre caminhos</p>
       </div>
+
+      <!-- Coluna 2: Links úteis -->
+      <div class="footer-col">
+        <h4>Links</h4>
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="Projeto.html">Projeto</a></li>
+          <li><a href="cadastro.html">Cadastro</a></li>
+          <li><a href="compra.html">Compra</a></li>
+          <li><a href="contato.html">Contato</a></li>
+        </ul>
+      </div>
+
+      <!-- Coluna 3: Contato -->
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <p>📧 <a href="mailto:projetosenai806@gmail.com">projetosenai806@gmail.com</a></p>
+        <p>📍 Itatiba - SP</p>
+        <p>☎ (11) 99999-9999</p>
+      </div>
+
+      <!-- Coluna 4: Redes Sociais -->
+      <div class="footer-col">
+        <h4>Siga-nos</h4>
+        <div class="footer-social">
+          <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+      </div>
+
     </div>
 
-  </div>
-
-  <!-- Linha final -->
-  <div class="footer-bottom">
-    <p>&copy; 2025 Access Path - Todos os direitos reservados.</p>
-  </div>
-</footer>
-
+    <!-- Linha final -->
+    <div class="footer-bottom">
+      <p>&copy; 2025 Access Path - Todos os direitos reservados.</p>
+    </div>
+  </footer>
 
   <!-- Botão de VOZ (fica ACIMA do VLibras) + toast -->
   <button id="tts-mini" type="button" title="Leitor de voz" aria-label="Leitor de voz">🔊</button>
@@ -163,5 +160,52 @@
   <script src="https://vlibras.gov.br/app/vlibras-plugin.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
   <script src="script.js" defer></script>
+
+  <!-- Script da máscara e validação do telefone -->
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const telInput = document.getElementById("telefone");
+    if (telInput) {
+      telInput.addEventListener("input", (e) => {
+        let v = e.target.value.replace(/\D/g, ""); // só números
+        if (v.length > 11) v = v.slice(0, 11);    // máximo 11 dígitos
+
+        if (v.length === 0) {
+          e.target.value = "";
+        } else if (v.length <= 2) {
+          e.target.value = `(${v}`;
+        } else if (v.length <= 6) {
+          e.target.value = `(${v.slice(0, 2)}) ${v.slice(2)}`;
+        } else if (v.length <= 10) {
+          e.target.value = `(${v.slice(0, 2)}) ${v.slice(2, 6)}-${v.slice(6)}`;
+        } else {
+          e.target.value = `(${v.slice(0, 2)}) ${v.slice(2, 7)}-${v.slice(7)}`;
+        }
+      });
+
+      // Validação no submit
+      const formContato = document.getElementById("form-contato");
+      if (formContato) {
+        formContato.addEventListener("submit", (ev) => {
+          const phoneVal = telInput.value.trim();
+          if (phoneVal) {
+            const digits = phoneVal.replace(/\D/g, "");
+            if (!(digits.length === 10 || digits.length === 11)) {
+              ev.preventDefault();
+              if (typeof toast === "function") {
+                toast("Telefone inválido: use 10 ou 11 dígitos.");
+              } else {
+                alert("Telefone inválido: use 10 ou 11 dígitos.");
+              }
+              telInput.focus();
+              return false;
+            }
+          }
+          return true;
+        });
+      }
+    }
+  });
+  </script>
 </body>
 </html>
