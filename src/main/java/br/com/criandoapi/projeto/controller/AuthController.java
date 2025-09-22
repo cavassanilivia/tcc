@@ -1,7 +1,8 @@
 package br.com.criandoapi.projeto.controller;
 
 import br.com.criandoapi.projeto.model.Usuario;
-import br.com.criandoapi.projeto.repository.UsuarioRepository;
+import br.com.criandoapi.projeto.service.UsuarioService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -9,18 +10,15 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class AuthController {
 
-    private final UsuarioRepository usuarioRepo;
+    private final UsuarioService usuarioService;
 
-    public AuthController(UsuarioRepository usuarioRepo) {
-        this.usuarioRepo = usuarioRepo;
+    public AuthController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
     }
 
     @PostMapping("/login")
-    public Usuario login(@RequestBody Usuario credenciais) {
-        Usuario u = usuarioRepo.findByEmail(credenciais.getEmail());
-        if (u != null && u.getSenhaHash().equals(credenciais.getSenhaHash())) {
-            return u; // ⚠️ para produção use hash seguro (bcrypt/argon2)
-        }
-        throw new RuntimeException("Credenciais inválidas");
+    public ResponseEntity<Usuario> login(@RequestBody Usuario credenciais) {
+        Usuario u = usuarioService.autenticar(credenciais.getEmail(), credenciais.getSenha());
+        return ResponseEntity.ok(u);
     }
 }

@@ -21,6 +21,11 @@ public class Usuario {
     @Column(name = "senha_hash", nullable = false)
     private String senhaHash;
 
+    // 🔑 Campo transitório (não vai pro banco, só usado para receber do JSON)
+    @Transient
+    private String senha;
+
     private LocalDateTime criadoEm = LocalDateTime.now();
+
     private LocalDateTime atualizadoEm;
 }
