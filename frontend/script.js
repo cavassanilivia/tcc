@@ -5,7 +5,11 @@
   /* =============== Utils: aria-live + toast =============== */
   const srStatus = document.getElementById("sr-status");
   const toastEl  = document.getElementById("tts-toast");
-  function announce(msg) { if (!srStatus) return; srStatus.textContent = ""; setTimeout(() => srStatus.textContent = msg, 10); }
+  function announce(msg) {
+    if (!srStatus) return;
+    srStatus.textContent = "";
+    setTimeout(() => srStatus.textContent = msg, 10);
+  }
   function toast(msg, ms = 2200) {
     if (!toastEl) { alert(msg); return; }
     toastEl.textContent = msg;
@@ -138,6 +142,34 @@
     }
   }
 
+  /* =============== Tabs: Cadastro / Login =============== */
+  function wireTabs(){
+    const tabSignup = document.getElementById("tab-signup");
+    const tabLogin  = document.getElementById("tab-login");
+    const panelSignup = document.getElementById("panel-signup");
+    const panelLogin  = document.getElementById("panel-login");
+
+    if (!tabSignup || !tabLogin || !panelSignup || !panelLogin) return;
+
+    tabSignup.addEventListener("click", () => {
+      tabSignup.classList.add("is-active");
+      tabLogin.classList.remove("is-active");
+      panelSignup.hidden = false;
+      panelLogin.hidden = true;
+      tabSignup.setAttribute("aria-selected", "true");
+      tabLogin.setAttribute("aria-selected", "false");
+    });
+
+    tabLogin.addEventListener("click", () => {
+      tabLogin.classList.add("is-active");
+      tabSignup.classList.remove("is-active");
+      panelLogin.hidden = false;
+      panelSignup.hidden = true;
+      tabLogin.setAttribute("aria-selected", "true");
+      tabSignup.setAttribute("aria-selected", "false");
+    });
+  }
+
   /* =============== Auth: Signup / Login =============== */
   function wireSignup(){
     const form = document.getElementById("form-cadastro-signup");
@@ -216,6 +248,7 @@
 
   function wirePwdToggle(){
     document.querySelectorAll(".pwd-toggle").forEach(btn=>{
+      btn.innerHTML = '<i class="fa fa-eye"></i>';
       btn.addEventListener("click",()=>{
         const targetId = btn.getAttribute("data-target");
         const input = document.getElementById(targetId);
@@ -307,9 +340,9 @@
       const quantidade = parseInt(document.getElementById("ambientes").value) || 1;
 
       const payload = {
-        usuario: { idUsuario: user.idUsuario }, // bate com @ManyToOne
+        usuario: { idUsuario: user.idUsuario },
         quantidade,
-        pagamento,                               // pix | cartao | boleto
+        pagamento,
         valorEstimado,
         orcamentoJson
       };
@@ -318,7 +351,6 @@
         await apiFetchJSON(ENDPOINTS.compras, { method:"POST", body: JSON.stringify(payload) });
         toast("Pedido registrado com sucesso!");
         announce("Pedido registrado com sucesso!");
-        // NÃO damos reset no orçamento para o usuário poder imprimir/salvar
       }catch(err){
         console.error("Erro ao registrar pedido:", err);
         toast("Erro ao registrar pedido: " + err.message);
@@ -347,9 +379,123 @@
     });
   }
 
+  /* =============== Leitor de Voz (TTS) =============== */
+  function wireTTS(){
+    let ttsEnabled = false;
+
+    const btn = document.getElementById("tts-mini");
+    if (btn){
+      btn.addEventListener("click", ()=>{
+        ttsEnabled = !ttsEnabled;
+
+        if (!ttsEnabled){
+          window.speechSynthesis.cancel();
+          toast("Leitor de voz desativado.");
+          btn.textContent = "🔊";
+        } else {
+          toast("Leitor de voz ativado. Clique em um texto.");
+          btn.textContent = "⏹️";
+        }
+      });
+    }
+
+    document.addEventListener("click", (e)=>{
+      if (!ttsEnabled) return;
+      if (e.target.closest(".pwd-toggle") || e.target.closest("button")) return;
+
+      const target = e.target.closest(".speakable");
+      if (!target) return;
+
+      let txt = "";
+      if (e.target && e.target !== target){
+        txt = (e.target.innerText || e.target.textContent || "").trim();
+      }
+      if (!txt){
+        txt = (target.innerText || target.textContent || "").trim();
+      }
+
+      if (!txt){
+        toast("Nada para ler.");
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(txt);
+      utter.lang = "pt-BR";
+      utter.rate = 1;
+      utter.pitch = 1;
+      window.speechSynthesis.speak(utter);
+    });
+  }
+
+  /* =============== Carrossel com Fade =============== */
+  function wireCarousel(){
+    const carousel = document.querySelector(".carousel-fade");
+    if (!carousel) return;
+
+    const slides = Array.from(carousel.querySelectorAll(".slide"));
+    const btnPrev = carousel.querySelector(".prev");
+    const btnNext = carousel.querySelector(".next");
+    const indicators = carousel.querySelector(".indicators");
+    const interval = parseInt(carousel.dataset.interval, 10) || 5000;
+
+    let current = 0;
+    let timer = null;
+
+    function showSlide(idx){
+      slides.forEach((s,i)=>{
+        s.classList.toggle("active", i===idx);
+        if (indicators){
+          const dots = indicators.querySelectorAll("button");
+          if (dots[i]) dots[i].classList.toggle("active", i===idx);
+        }
+      });
+      current = idx;
+    }
+
+    function nextSlide(){
+      let idx = (current+1) % slides.length;
+      showSlide(idx);
+    }
+    function prevSlide(){
+      let idx = (current-1+slides.length) % slides.length;
+      showSlide(idx);
+    }
+
+    // cria indicadores
+    if (indicators){
+      indicators.innerHTML = "";
+      slides.forEach((s,i)=>{
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.setAttribute("aria-label", `Ir para slide ${i+1}`);
+        if (i===0) dot.classList.add("active");
+        dot.addEventListener("click", ()=>{
+          showSlide(i);
+          resetTimer();
+        });
+        indicators.appendChild(dot);
+      });
+    }
+
+    // botões
+    if (btnPrev) btnPrev.addEventListener("click", ()=>{ prevSlide(); resetTimer(); });
+    if (btnNext) btnNext.addEventListener("click", ()=>{ nextSlide(); resetTimer(); });
+
+    // timer automático
+    function resetTimer(){
+      if (timer) clearInterval(timer);
+      timer = setInterval(nextSlide, interval);
+    }
+
+    showSlide(0);
+    resetTimer();
+  }
+
   /* =============== Boot =============== */
   document.addEventListener("DOMContentLoaded", ()=>{
     ensureAuthBadge();
+    wireTabs();       // ✅ agora as abas funcionam
     wireSignup();
     wireLogin();
     wirePhoneMask();
@@ -357,6 +503,8 @@
     wireOrcamento();
     wireCompra();
     wireContato();
+    wireTTS();
+    wireCarousel();
   });
 
 })();

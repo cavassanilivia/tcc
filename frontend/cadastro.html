@@ -7,94 +7,88 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<!-- Base da API e pepper (opcional) -->
+  <!-- Base da API -->
   <meta name="ap-api-base" content="http://127.0.0.1:8080">
-  <meta name="ap-pepper" content="">
 </head>
 <body>
  
-  <style>
-  body {
-    background-color: #f3f3f3; /* cor clara (exemplo) */
-  }
+<style>
+  body { background-color: #f3f3f3; }
 </style>
 
-  <header>
-    <div class="header-top">
-      <a href="index.html" class="brand" aria-label="Página inicial Acess Path">
-        <img src="imagens/logo_access.png" alt="Logo Acess Path" class="logo" />
-        <p class="slogan">Tecnologia que abre caminhos</p>
-      </a>
+<header>
+  <div class="header-top">
+    <a href="index.html" class="brand" aria-label="Página inicial Acess Path">
+      <img src="imagens/logo_access.png" alt="Logo Acess Path" class="logo" />
+      <p class="slogan">Tecnologia que abre caminhos</p>
+    </a>
 
-      <nav class="main-nav" aria-label="Principal">
-        <ul>
-          <li><a class="speakable" href="index.html">Início</a></li>
-          <li><a class="speakable" href="Projeto.html">Projeto</a></li>
-          <li><a class="speakable" href="cadastro.html">Cadastro</a></li>
-          <li><a class="speakable" href="compra.html">Compra</a></li>
-          <li><a class="speakable" href="contato.html">Contato</a></li>
-        </ul>
-      </nav>
-  </header>
+    <nav class="main-nav" aria-label="Principal">
+      <ul>
+        <li><a class="speakable" href="index.html">Início</a></li>
+        <li><a class="speakable" href="Projeto.html">Projeto</a></li>
+        <li><a class="speakable" href="cadastro.html">Cadastro</a></li>
+        <li><a class="speakable" href="compra.html">Compra</a></li>
+        <li><a class="speakable" href="contato.html">Contato</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-
-  <main id="conteudo">
+<main id="conteudo">
   <div id="sr-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
-  <section class="titulo-degrade speakable" aria-labelledby="cad-title">
-      <h2 id="cadastro-title">Cadastro</h2>
-      <p>Crie sua conta no Access Path para acessar a calculadora de orçamento, acompanhar seus projetos e receber novidades exclusivas.</p>
+  <section class="titulo-degrade speakable" aria-labelledby="cadastro-title">
+    <h2 id="cadastro-title">Cadastro</h2>
+    <p>Crie sua conta no Access Path para acessar a calculadora de orçamento, acompanhar seus projetos e receber novidades exclusivas.</p>
   </section>
 
-  <!-- Grid: formulário (esq) + lateral informativa (dir) -->
   <section class="cad-grid" aria-label="Área de acesso">
-    <!-- Cartão com ABAS -->
     <div class="tabs form-elevada" role="region" aria-label="Formulários de acesso">
-      <div role="tablist" aria-label="Escolha entre criar conta ou entrar" class="tablist">
-        <button role="tab" id="tab-signup" aria-controls="panel-signup" aria-selected="true" class="tab is-active">
-          Criar conta
-        </button>
-        <button role="tab" id="tab-login" aria-controls="panel-login" aria-selected="false" class="tab">
-          Já tenho uma conta
-        </button>
+      <div role="tablist" class="tablist">
+        <button role="tab" id="tab-signup" aria-controls="panel-signup" aria-selected="true" class="tab is-active">Criar conta</button>
+        <button role="tab" id="tab-login" aria-controls="panel-login" aria-selected="false" class="tab">Já tenho uma conta</button>
       </div>
 
-      <!-- Painel: CRIAR CONTA -->
-      <div id="panel-signup" role="tabpanel" aria-labelledby="tab-signup" class="tabpanel" tabindex="0">
+      <!-- Criar conta -->
+      <div id="panel-signup" role="tabpanel" aria-labelledby="tab-signup" class="tabpanel">
         <form id="form-cadastro-signup" class="cad-form" novalidate>
           <div class="grid-2">
             <div class="field">
-              <label for="su-nome">Nome completo <span class="req">*</span></label>
-              <input id="su-nome" name="name" autocomplete="name" required />
+              <label for="su-nome">Nome completo *</label>
+              <input id="su-nome" name="name" required />
             </div>
             <div class="field">
               <label for="su-telefone">Telefone</label>
-              <input id="su-telefone" name="tel" inputmode="tel" autocomplete="tel" placeholder="(xx) xxxxx-xxxx" />
+              <input id="su-telefone" name="tel" inputmode="tel" placeholder="(xx) xxxxx-xxxx" />
             </div>
           </div>
 
           <div class="grid-2">
             <div class="field">
-              <label for="su-email">E-mail <span class="req">*</span></label>
-              <input id="su-email" type="email" name="email" autocomplete="email" required />
+              <label for="su-email">E-mail *</label>
+              <input id="su-email" type="email" required />
             </div>
             <div class="field">
-              <label for="su-email-conf">Confirmar e-mail <span class="req">*</span></label>
-              <input id="su-email-conf" type="email" autocomplete="email" required />
+              <label for="su-email-conf">Confirmar e-mail *</label>
+              <input id="su-email-conf" type="email" required />
             </div>
           </div>
 
           <div class="grid-2">
             <div class="field field-pwd">
-              <label for="su-senha">Senha <span class="req">*</span></label>
-              <input id="su-senha" type="password" name="password" autocomplete="new-password" minlength="6" required />
-              <button type="button" class="pwd-toggle" aria-pressed="false" title="Mostrar/ocultar senha" data-toggle="password" data-target="su-senha"></button>
-              <span class="hint">Mínimo 6 caracteres</span>
+              <label for="su-senha">Senha *</label>
+              <input id="su-senha" type="password" required minlength="6" />
+              <button type="button" class="pwd-toggle" aria-pressed="false" data-target="su-senha">
+                <i class="fa fa-eye"></i>
+              </button>
             </div>
             <div class="field field-pwd">
-              <label for="su-senha-conf">Confirmar senha <span class="req">*</span></label>
-              <input id="su-senha-conf" type="password" autocomplete="new-password" minlength="6" required />
-              <button type="button" class="pwd-toggle" aria-pressed="false" title="Mostrar/ocultar senha" data-toggle="password" data-target="su-senha-conf"></button>
+              <label for="su-senha-conf">Confirmar senha *</label>
+              <input id="su-senha-conf" type="password" required minlength="6" />
+              <button type="button" class="pwd-toggle" aria-pressed="false" data-target="su-senha-conf">
+                <i class="fa fa-eye"></i>
+              </button>
             </div>
           </div>
 
@@ -107,136 +101,93 @@
         </form>
       </div>
 
-     <!-- LOGIN (corrigido, sem duplicações) -->
-        <div id="panel-login" role="tabpanel" aria-labelledby="tab-login" class="tabpanel" tabindex="0" hidden>
-          <form id="form-cadastro-login" class="cad-form" novalidate>
-            <div class="field">
-              <label for="li-email">E-mail *</label>
-              <input id="li-email" name="email" type="email" autocomplete="email" required>
-            </div>
-
+      <!-- Login -->
+      <div id="panel-login" role="tabpanel" aria-labelledby="tab-login" class="tabpanel" hidden>
+        <form id="form-cadastro-login" class="cad-form" novalidate>
+          <div class="field">
+            <label for="li-email">E-mail *</label>
+            <input id="li-email" type="email" required />
+          </div>
           <div class="field field-pwd">
-            <label for="li-senha">Senha <span class="req">*</span></label>
-            <input id="li-senha" type="password" name="password" autocomplete="current-password" required />
-            <button type="button" class="pwd-toggle" aria-pressed="false" title="Mostrar/ocultar senha" data-toggle="password" data-target="li-senha"></button>
+            <label for="li-senha">Senha *</label>
+            <input id="li-senha" type="password" required />
+            <button type="button" class="pwd-toggle" aria-pressed="false" data-target="li-senha">
+              <i class="fa fa-eye"></i>
+            </button>
           </div>
-
-          <div class="field-meta">
-            <a href="#" class="hint">Esqueci minha senha</a>
-          </div>
-
           <button class="btn" type="submit">Entrar</button>
         </form>
       </div>
     </div>
 
-    <!-- Lateral informativa -->
     <aside class="cad-aside card speakable" aria-label="Informações">
-      <div class="cad-aside-kicker">Por que criar uma conta?</div>
-      <h3>Seu acesso libera a <span class="txt-gradient">calculadora de orçamento</span></h3>
+      <h3>Por que criar uma conta?</h3>
       <ul class="benef-list">
-        <li> Acesso à estimativa por ambiente e m²</li>
-        <li> Histórico dos seus orçamentos</li>
-        <li> Acompanhamento do projeto</li>
-        <li> Avisos sobre atualizações</li>
+        <li>Acesso à calculadora de orçamento</li>
+        <li>Histórico dos seus orçamentos</li>
+        <li>Acompanhamento do projeto</li>
       </ul>
-      <div class="cad-aside-note">
-        <p><strong>Privacidade:</strong> seus dados serão usados apenas para contato e orçamento.</p>
-      </div>
     </aside>
   </section>
 </main>
 
- <footer class="site-footer">
-  <div class="footer-container">
+<footer class="site-footer">
+    <div class="footer-container">
 
-    <!-- Coluna 1: Logo + Slogan -->
-    <div class="footer-col">
-      <img src="imagens/logo_access.png" alt="Logo Access Path" class="footer-logo">
-      <p class="footer-slogan">Tecnologia que abre caminhos</p>
-    </div>
-
-    <!-- Coluna 2: Links úteis -->
-    <div class="footer-col">
-      <h4>Links</h4>
-      <ul>
-        <li><a href="index.html">Início</a></li>
-        <li><a href="Projeto.html">Projeto</a></li>
-        <li><a href="cadastro.html">Cadastro</a></li>
-        <li><a href="compra.html">Compra</a></li>
-        <li><a href="contato.html">Contato</a></li>
-      </ul>
-    </div>
-
-    <!-- Coluna 3: Contato -->
-    <div class="footer-col">
-      <h4>Contato</h4>
-      <p>📧 <a href="mailto:projetosenai806@gmail.com">projetosenai806@gmail.com</a></p>
-      <p>📍 Itatiba - SP</p>
-      <p>☎ (11) 99999-9999</p>
-    </div>
-
-    <!-- Coluna 4: Redes Sociais -->
-    <div class="footer-col">
-      <h4>Siga-nos</h4>
-      <div class="footer-social">
-        <a href="https://facebook.com" target="_blank" aria-label="Facebook">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="https://instagram.com" target="_blank" aria-label="Instagram">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
-          <i class="fab fa-linkedin-in"></i>
-        </a>
+      <!-- Coluna 1: Logo + Slogan -->
+      <div class="footer-col">
+        <img src="imagens/logo_access.png" alt="Logo Access Path" class="footer-logo">
+        <p class="footer-slogan">Tecnologia que abre caminhos</p>
       </div>
+
+      <!-- Coluna 2: Links úteis -->
+      <div class="footer-col">
+        <h4>Links</h4>
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="Projeto.html">Projeto</a></li>
+          <li><a href="cadastro.html">Cadastro</a></li>
+          <li><a href="compra.html">Compra</a></li>
+          <li><a href="contato.html">Contato</a></li>
+        </ul>
+      </div>
+
+      <!-- Coluna 3: Contato -->
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <p>📧 <a href="mailto:projetosenai806@gmail.com">projetosenai806@gmail.com</a></p>
+        <p>📍 Itatiba - SP</p>
+        <p>☎ (11) 99999-9999</p>
+      </div>
+
+      <!-- Coluna 4: Redes Sociais -->
+      <div class="footer-col">
+        <h4>Siga-nos</h4>
+        <div class="footer-social">
+          <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+      </div>
+
     </div>
 
-  </div>
-
-  <!-- Linha final -->
-  <div class="footer-bottom">
-    <p>&copy; 2025 Access Path - Todos os direitos reservados.</p>
-  </div>
-</footer>
-
-
-  <!-- Botão de VOZ -->
-  <button id="tts-mini" type="button" title="Leitor de voz" aria-label="Leitor de voz">🔊</button>
-  <div id="tts-toast" role="status" aria-live="polite"></div>
-
-  <!-- VLibras -->
-  <div vw class="enabled" aria-label="Ativar tradução para Libras">
-    <div vw-access-button class="active" role="button" aria-label="Abrir tradutor VLibras"></div>
-    <div vw-plugin-wrapper>
-      <div class="vw-plugin-top-wrapper" aria-live="polite" aria-atomic="true"></div>
+    <!-- Linha final -->
+    <div class="footer-bottom">
+      <p>&copy; 2025 Access Path - Todos os direitos reservados.</p>
     </div>
-  </div>
-  <script src="https://vlibras.gov.br/app/vlibras-plugin.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>window.addEventListener('DOMContentLoaded',()=>{try{new window.VLibras.Widget('https://vlibras.gov.br/app');}catch(e){}});</script>
+  </footer>
 
-<!-- Alternância das abas -->
-  <script>
-    const tabSignup = document.getElementById("tab-signup");
-    const tabLogin = document.getElementById("tab-login");
-    const panelSignup = document.getElementById("panel-signup");
-    const panelLogin = document.getElementById("panel-login");
+<!-- Botão de VOZ -->
+<button id="tts-mini" type="button" aria-label="Leitor de voz">🔊</button>
+<div id="tts-toast" role="status" aria-live="polite"></div>
 
-    tabSignup.addEventListener("click", () => {
-      tabSignup.classList.add("is-active");
-      tabLogin.classList.remove("is-active");
-      panelSignup.hidden = false;
-      panelLogin.hidden = true;
-    });
-
-    tabLogin.addEventListener("click", () => {
-      tabLogin.classList.add("is-active");
-      tabSignup.classList.remove("is-active");
-      panelLogin.hidden = false;
-      panelSignup.hidden = true;
-    });
-  </script>
-
-  <script src="script.js" defer></script>
+<script src="script.js" defer></script>
 </body>
 </html>
