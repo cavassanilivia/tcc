@@ -6,15 +6,64 @@
   <title>Access Path - Compra</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #f3f3f3;
+    }
+
+    .info-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.2rem 1.5rem;
+      margin: 1.5rem auto;
+      max-width: 800px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .info-card h3 {
+      color: #003080;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    .info-grid {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;           /* reduz espaço lateral */
+      margin-bottom: 0.5rem;
+    }
+
+    .info-col {
+      flex: 1 1 45%;
+      font-size: 0.95rem;
+      color: #1E2A3A;
+      line-height: 1.6;
+    }
+
+    .info-col h4 {
+      margin-bottom: 0.4rem;
+      color: #0070c0;
+    }
+
+    .info-col ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .info-col li {
+      margin-bottom: 0.2rem;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #003080;
+    }
+  </style>
 </head>
 <body>
-
-  <style>
-  body {
-    background-color: #f3f3f3;
-  }
-  </style>
-
   <header>
     <div class="header-top">
       <a href="index.html" class="brand" aria-label="Página inicial Acess Path">
@@ -41,6 +90,26 @@
     <section class="titulo-degrade speakable" aria-labelledby="compra-title">
       <h2 id="compra-title">Calculadora de Orçamento</h2>
       <p>Defina ambientes e área para estimar sensores e custos. Depois finalize a compra.</p>
+    </section>
+
+    <!-- 🔹 Bloco de informações prévias -->
+    <section class="info-card">
+      <h3>📐 Dimensionamento & Custos Fixos</h3>
+      <div class="info-grid">
+        <div class="info-col">
+          <h4>📏 Dimensionamento:</h4>
+          <p>1 sensor cobre <span class="highlight">50 m²</span></p>
+          <p>100 m² → <span class="highlight">2 sensores</span></p>
+        </div>
+        <div class="info-col">
+          <h4>💲 Custos Fixos:</h4>
+          <ul>
+            <li>Sensor (unidade): <span class="highlight">R$ 199,90</span></li>
+            <li>Kit Fone (completo): <span class="highlight">R$ 899,00</span></li>
+            <li>Mão de obra (instalação): <span class="highlight">R$ 250,00</span></li>
+          </ul>
+        </div>
+      </div>
     </section>
 
     <section class="compra-grid" aria-label="Orçamento e Compra">
@@ -111,58 +180,55 @@
   </main>
 
   <footer class="site-footer">
-  <div class="footer-container">
+    <div class="footer-container">
+      <!-- Coluna 1: Logo + Slogan -->
+      <div class="footer-col">
+        <img src="imagens/logo_access.png" alt="Logo Access Path" class="footer-logo">
+        <p class="footer-slogan">Tecnologia que abre caminhos</p>
+      </div>
 
-    <!-- Coluna 1: Logo + Slogan -->
-    <div class="footer-col">
-      <img src="imagens/logo_access.png" alt="Logo Access Path" class="footer-logo">
-      <p class="footer-slogan">Tecnologia que abre caminhos</p>
-    </div>
+      <!-- Coluna 2: Links úteis -->
+      <div class="footer-col">
+        <h4>Links</h4>
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="Projeto.html">Projeto</a></li>
+          <li><a href="cadastro.html">Cadastro</a></li>
+          <li><a href="compra.html">Compra</a></li>
+          <li><a href="contato.html">Contato</a></li>
+        </ul>
+      </div>
 
-    <!-- Coluna 2: Links úteis -->
-    <div class="footer-col">
-      <h4>Links</h4>
-      <ul>
-        <li><a href="index.html">Início</a></li>
-        <li><a href="Projeto.html">Projeto</a></li>
-        <li><a href="cadastro.html">Cadastro</a></li>
-        <li><a href="compra.html">Compra</a></li>
-        <li><a href="contato.html">Contato</a></li>
-      </ul>
-    </div>
+      <!-- Coluna 3: Contato -->
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <p>📧 <a href="mailto:projetosenai806@gmail.com">projetosenai806@gmail.com</a></p>
+        <p>📍 Itatiba - SP</p>
+        <p>☎ (11) 99999-9999</p>
+      </div>
 
-    <!-- Coluna 3: Contato -->
-    <div class="footer-col">
-      <h4>Contato</h4>
-      <p>📧 <a href="mailto:projetosenai806@gmail.com">projetosenai806@gmail.com</a></p>
-      <p>📍 Itatiba - SP</p>
-      <p>☎ (11) 99999-9999</p>
-    </div>
-
-    <!-- Coluna 4: Redes Sociais -->
-    <div class="footer-col">
-      <h4>Siga-nos</h4>
-      <div class="footer-social">
-        <a href="https://facebook.com" target="_blank" aria-label="Facebook">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="https://instagram.com" target="_blank" aria-label="Instagram">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
-          <i class="fab fa-linkedin-in"></i>
-        </a>
+      <!-- Coluna 4: Redes Sociais -->
+      <div class="footer-col">
+        <h4>Siga-nos</h4>
+        <div class="footer-social">
+          <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
       </div>
     </div>
 
-  </div>
-
-  <!-- Linha final -->
-  <div class="footer-bottom">
-    <p>&copy; 2025 Access Path - Todos os direitos reservados.</p>
-  </div>
-</footer>
-
+    <!-- Linha final -->
+    <div class="footer-bottom">
+      <p>&copy; 2025 Access Path - Todos os direitos reservados.</p>
+    </div>
+  </footer>
 
   <!-- Botão de VOZ + toast -->
   <button id="tts-mini" type="button" title="Leitor de voz" aria-label="Leitor de voz">🔊</button>
