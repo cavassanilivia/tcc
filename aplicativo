@@ -1,0 +1,511 @@
+import 'dart:convert';
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
+import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+
+void main() {
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AppState()..initTts()..loadEnvironments()),
+        ChangeNotifierProvider(create: (_) => UserState()),
+      ],
+      child: const AccessPathApp(),
+    ),
+  );
+}
+
+const kNavy = Color(0xFF003B73);
+const kBg = Color(0xFFF6F8FB);
+const kText = Color(0xFF1F2A37);
+
+ThemeData buildTheme() {
+  final base = ThemeData(
+    colorScheme: ColorScheme.fromSeed(seedColor: kNavy),
+    scaffoldBackgroundColor: kBg,
+    useMaterial3: true,
+  );
+  return base.copyWith(
+    appBarTheme: const AppBarTheme(
+      backgroundColor: kNavy,
+      foregroundColor: Colors.white,
+      centerTitle: true,
+      elevation: 0,
+    ),
+    cardTheme: const CardThemeData(
+      color: Colors.white,
+      surfaceTintColor: Colors.white,
+      shadowColor: Colors.black12,
+      elevation: 2,
+      margin: EdgeInsets.symmetric(vertical: 8),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(14)),
+      ),
+    ),
+  );
+}
+
+class EnvironmentItem {
+  final String id;
+  final String name;
+  final String description;
+  EnvironmentItem({required this.id, required this.name, required this.description});
+}
+
+class AppState extends ChangeNotifier {
+  final _tts = FlutterTts();
+  bool voiceEnabled = true;
+  List<EnvironmentItem> environments = [];
+  String? selectedEnvironmentId;
+
+  Future<void> initTts() async {
+    await _tts.setLanguage('pt-BR');
+    await _tts.setSpeechRate(0.46);
+    await _tts.setPitch(1);
+  }
+
+  Future<void> speak(String text) async {
+    if (!voiceEnabled) return;
+    await _tts.stop();
+    await _tts.speak(text);
+  }
+
+  Future<String?> fetchUid() async {
+    try {
+      final url = Uri.parse("http://192.168.1.86:5000/api/uid");
+      final res = await http.get(url).timeout(const Duration(seconds: 5));
+      if (res.statusCode == 200) {
+        return jsonDecode(res.body)["uid"];
+      }
+    } catch (e) {
+      debugPrint("Erro ao buscar UID: $e");
+    }
+    return null;
+  }
+
+  Future<void> loadEnvironments() async {
+    try {
+      final url = Uri.parse("http://192.168.1.86:5000/api/ambientes");
+      final res = await http.get(url).timeout(const Duration(seconds: 5));
+      if (res.statusCode == 200) {
+        final data = jsonDecode(res.body);
+        environments = (data["ambientes"] as List)
+            .map((item) => EnvironmentItem(
+          id: item["id"].toString(),
+          name: item["nome"],
+          description: item["descricao"],
+        ))
+            .toList();
+        notifyListeners();
+      }
+    } catch (e) {
+      debugPrint("Erro ao carregar ambientes: $e");
+    }
+  }
+
+  Future<void> addEnvironment(String name, String uid) async {
+    if (name.isEmpty || uid.isEmpty) return;
+    try {
+      final url = Uri.parse("http://192.168.1.86:5000/api/ambientes");
+      final res = await http
+          .post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"nome": name, "descricao": uid}),
+      )
+          .timeout(const Duration(seconds: 5));
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        await speak("Ambiente $name cadastrado.");
+        await loadEnvironments();
+      } else {
+        await speak("Erro ao salvar no banco.");
+      }
+    } catch (e) {
+      await speak("Erro de conexão: $e");
+    }
+  }
+
+  Future<void> deleteEnvironment(String id) async {
+    try {
+      final url = Uri.parse("http://192.168.1.86:5000/api/ambientes/$id");
+      final res = await http.delete(url).timeout(const Duration(seconds: 5));
+
+      if (res.statusCode == 200 || res.statusCode == 204) {
+        environments.removeWhere((e) => e.id == id);
+        notifyListeners();
+        await speak("Ambiente excluído com sucesso.");
+      } else {
+        await speak("Erro ao excluir. Código: ${res.statusCode}");
+      }
+    } catch (e) {
+      await speak("Erro na exclusão: $e");
+    }
+  }
+
+  /// 🚀 Novo: fluxo transmissor → receptor + print + exibir UID
+  Future<void> identifyAndSpeakEnvironment() async {
+    final uid = await fetchUid();
+    if (uid == null) {
+      await speak("Nenhuma tag encontrada.");
+      debugPrint("❌ Nenhum UID recebido do transmissor");
+      return;
+    }
+
+    selectedEnvironmentId = uid;
+    notifyListeners();
+
+    final match = environments.firstWhere(
+          (e) => e.description == uid,
+      orElse: () => EnvironmentItem(
+        id: "0",
+        name: "Desconhecido",
+        description: uid,
+      ),
+    );
+
+    if (match.name != "Desconhecido") {
+      debugPrint("✅ UID recebido: $uid → Ambiente: ${match.name}");
+      await speak("Você está no ambiente: ${match.name}");
+    } else {
+      debugPrint("⚠️ UID $uid não cadastrado no banco");
+      await speak("Tag $uid não cadastrada.");
+    }
+  }
+}
+
+class UserState extends ChangeNotifier {
+  String? _userId;
+  String? _nome;
+  String? _email;
+
+  String? get userId => _userId;
+  String? get nome => _nome;
+  String? get email => _email;
+  bool get isLoggedIn => _userId != null;
+
+  Future<bool> login(String email, String senha) async {
+    try {
+      final url = Uri.parse('http://192.168.1.86:5000/api/login');
+      final res = await http
+          .post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"email": email, "senha": senha}),
+      )
+          .timeout(const Duration(seconds: 10));
+      if (res.statusCode == 200) {
+        final data = jsonDecode(res.body);
+        if (data['success'] == true) {
+          _userId = data['userId'].toString();
+          _nome = data['nome'] ?? '';
+          _email = email;
+          notifyListeners();
+          return true;
+        }
+      }
+    } catch (e) {
+      debugPrint("Erro login: $e");
+    }
+    return false;
+  }
+
+  void logout() {
+    _userId = null;
+    _nome = null;
+    _email = null;
+    notifyListeners();
+  }
+}
+
+class AccessPathApp extends StatelessWidget {
+  const AccessPathApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Access Path',
+      theme: buildTheme(),
+      home: const AuthGate(),
+      routes: {
+        '/home': (_) => const Shell(),
+      },
+    );
+  }
+}
+
+class AuthGate extends StatelessWidget {
+  const AuthGate({super.key});
+  @override
+  Widget build(BuildContext context) {
+    final userState = context.watch<UserState>();
+    return userState.isLoggedIn ? const Shell() : const LoginPage();
+  }
+}
+
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  String email = '';
+  String senha = '';
+  bool loading = false;
+
+  Future<void> tryLogin() async {
+    setState(() => loading = true);
+    final success = await context.read<UserState>().login(email, senha);
+    setState(() => loading = false);
+    if (success) {
+      Navigator.pushReplacementNamed(context, '/home');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Credenciais inválidas')),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Login')),
+      body: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          children: [
+            TextField(
+              decoration: const InputDecoration(labelText: 'Email'),
+              onChanged: (v) => email = v,
+            ),
+            TextField(
+              decoration: const InputDecoration(labelText: 'Senha'),
+              obscureText: true,
+              onChanged: (v) => senha = v,
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: loading ? null : tryLogin,
+              child: loading
+                  ? const SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Colors.white,
+                ),
+              )
+                  : const Text('Entrar'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Shell extends StatefulWidget {
+  const Shell({super.key});
+  @override
+  State<Shell> createState() => _ShellState();
+}
+
+class _ShellState extends State<Shell> {
+  int index = 0;
+  @override
+  Widget build(BuildContext context) {
+    final pages = [
+      const AboutPage(),
+      const EnvironmentsPage(),
+      const AccountPage()
+    ];
+    return Scaffold(
+      appBar: AppBar(
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Icon(Icons.volunteer_activism_rounded, color: Colors.white),
+            SizedBox(width: 8),
+            Text('Access Path', style: TextStyle(fontWeight: FontWeight.w700)),
+          ],
+        ),
+      ),
+      body: IndexedStack(index: index, children: pages),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: index,
+        onDestinationSelected: (i) => setState(() => index = i),
+        destinations: const [
+          NavigationDestination(icon: Icon(Icons.info_outline), label: 'Início'),
+          NavigationDestination(icon: Icon(Icons.home_work_outlined), label: 'Ambientes'),
+          NavigationDestination(icon: Icon(Icons.person_outline), label: 'Conta'),
+        ],
+      ),
+    );
+  }
+}
+
+class AboutPage extends StatelessWidget {
+  const AboutPage({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text("Access Path - Inclusão e Navegação com RFID"),
+    );
+  }
+}
+
+class EnvironmentsPage extends StatelessWidget {
+  const EnvironmentsPage({super.key});
+  @override
+  Widget build(BuildContext context) {
+    final app = context.watch<AppState>();
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text("Ambientes Cadastrados",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 10),
+          Expanded(
+            child: app.environments.isEmpty
+                ? const Center(child: Text("Nenhum ambiente cadastrado"))
+                : ListView.builder(
+              itemCount: app.environments.length,
+              itemBuilder: (_, i) {
+                final e = app.environments[i];
+                return ListTile(
+                  title: Text(e.name),
+                  subtitle: Text("UID: ${e.description}"),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: () async => await app.deleteEnvironment(e.id),
+                  ),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(
+                child: FilledButton.icon(
+                  icon: const Icon(Icons.add),
+                  label: const Text("Novo ambiente"),
+                  onPressed: () {
+                    final nameController = TextEditingController();
+                    final descController = TextEditingController();
+                    showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                        title: const Text("Cadastrar novo ambiente"),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextField(
+                              controller: nameController,
+                              decoration: const InputDecoration(labelText: "Nome do ambiente"),
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextField(
+                                    controller: descController,
+                                    readOnly: true,
+                                    decoration: const InputDecoration(labelText: "UID da Tag RFID"),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                IconButton(
+                                  icon: const Icon(Icons.nfc, color: kNavy),
+                                  tooltip: "Ler RFID",
+                                  onPressed: () async {
+                                    descController.text = "Lendo...";
+                                    final uid = await app.fetchUid();
+                                    descController.text = uid ?? "Falha ao ler UID";
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text("Cancelar"),
+                          ),
+                          FilledButton(
+                            onPressed: () async {
+                              final nome = nameController.text.trim();
+                              final desc = descController.text.trim();
+                              if (nome.isNotEmpty && desc.isNotEmpty && desc != "Falha ao ler UID") {
+                                await app.addEnvironment(nome, desc);
+                                Navigator.pop(context);
+                              }
+                            },
+                            child: const Text("Salvar"),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: FilledButton.icon(
+                  icon: const Icon(Icons.volume_up),
+                  label: const Text("Identificar ambiente"),
+                  onPressed: () async {
+                    await app.identifyAndSpeakEnvironment();
+                  },
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Text(
+            "Última leitura UID: ${app.selectedEnvironmentId ?? "nenhuma"}",
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class AccountPage extends StatelessWidget {
+  const AccountPage({super.key});
+  @override
+  Widget build(BuildContext context) {
+    final userState = context.watch<UserState>();
+    return Scaffold(
+      appBar: AppBar(title: const Text('Conta')),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Nome: ${userState.nome ?? "N/A"}', style: const TextStyle(fontSize: 18)),
+            const SizedBox(height: 10),
+            Text('Email: ${userState.email ?? "N/A"}', style: const TextStyle(fontSize: 18)),
+            const SizedBox(height: 30),
+            Center(
+              child: FilledButton.icon(
+                icon: const Icon(Icons.logout),
+                label: const Text('Sair'),
+                onPressed: () {
+                  userState.logout();
+                  Navigator.pushReplacementNamed(context, '/');
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
