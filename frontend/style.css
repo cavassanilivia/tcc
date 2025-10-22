@@ -1404,5 +1404,307 @@ input[type="password"]::-webkit-password-toggle-button {
   background: #003080; /* cor ativa */
 }
 
+/* ==========================
+   Header • Menu hambúrguer
+   ========================== */
 
+/* Botão (oculto no desktop) */
+.menu-toggle{
+  display:none;
+  width:44px; height:44px;
+  border:none; background:transparent; cursor:pointer;
+  align-items:center; justify-content:center;
+  margin-left: 8px;
+}
+.menu-toggle .bar{
+  display:block; width:24px; height:2px; background:#fff;
+  margin:4px 0; transition:transform .25s, opacity .25s;
+}
 
+/* Ícone vira "X" quando aberto */
+.menu-toggle.is-open .bar:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+.menu-toggle.is-open .bar:nth-child(2){ opacity:0; }
+.menu-toggle.is-open .bar:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+
+/* ── Mobile: nav colapsável como acordeon ───────────────────────── */
+@media (max-width: 900px){
+  /* mostra o botão */
+  .menu-toggle{ display:flex; }
+
+  /* esconde o slogan pra limpar o topo (opcional) */
+  header .slogan{ display:none; }
+
+  /* a nav vira um painel colapsável abaixo do header */
+  .main-nav{
+    position: absolute;
+    left: 0; right: 0; top: calc(60px + 8px); /* altura do header + respiro */
+    background: #022d5a; /* tom do seu azul, mais escuro */
+    overflow: hidden;
+    max-height: 0;               /* FECHADO por padrão */
+    transition: max-height .3s ease;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    z-index: 20;
+  }
+
+  /* layout em lista vertical */
+  .main-nav ul{
+    display:block;
+    margin: 0; padding: 8px 0;
+  }
+  .main-nav li{ list-style: none; }
+  .main-nav a{
+    display:block;
+    padding: 14px 20px;
+    color:#fff; text-decoration:none; font-weight:600;
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+  .main-nav a:hover{ background: rgba(255,255,255,.06); }
+
+  /* quando ABERTO */
+  .main-nav.is-open{ max-height: 60vh; }
+
+  /* garante que o container do topo fique alinhado */
+  .header-top{
+    position: relative;
+    padding-inline: 16px;
+  }
+}
+
+/* --- Layout básico do topo (garante botão à direita) --- */
+.header-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:relative;
+}
+
+/* === HAMBÚRGUER: sempre 3 linhas === */
+.menu-toggle{
+  position: absolute;           /* canto direito */
+  right: 16px;
+  top: 12px;
+  width: 44px; height: 44px;
+  border: 0; background: transparent; cursor: pointer;
+  display: none;                 /* só mostra no mobile no @media */
+  z-index: 40;
+}
+
+/* desenha 3 linhas: a central é .bar; as outras via ::before/::after */
+.menu-toggle .bar,
+.menu-toggle::before,
+.menu-toggle::after{
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 26px; height: 2px;
+  background: #fff;
+  border-radius: 2px;
+  transition: transform .25s, opacity .25s;
+}
+
+/* central (a .bar) fica no meio vertical */
+.menu-toggle .bar{ top: 50%; }
+
+/* superior e inferior */
+.menu-toggle::before{ top: calc(50% - 7px); }
+.menu-toggle::after { top: calc(50% + 7px); }
+
+/* animação para "X" quando aberto */
+.menu-toggle.is-open .bar{ transform: translateX(-50%) rotate(45deg); }
+.menu-toggle.is-open::before{ opacity: 0; }
+.menu-toggle.is-open::after{ transform: translateX(-50%) rotate(-45deg); top: 50%; }
+
+/* ===== MOBILE ===== */
+@media (max-width: 900px){
+  .menu-toggle{ display: block; }         /* mostra o botão */
+
+  /* menu como painel colapsável abaixo do header */
+  .main-nav{
+    position: absolute;
+    left: 0; right: 0;
+    top: calc(60px + 6px);                /* ajuste se seu header for mais alto */
+    background: #0c3566;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .3s ease;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    z-index: 30;
+  }
+
+  /* *** FORÇA COLUNA *** */
+  .main-nav ul{
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    margin: 0; padding: 8px 0;
+  }
+  .main-nav li{ list-style: none; }
+  .main-nav a{
+    display: block !important;
+    padding: 14px 20px;
+    color: #fff; text-decoration: none; font-weight: 600;
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+  .main-nav a:hover{ background: rgba(255,255,255,.06); }
+
+  /* aberto */
+  .main-nav.is-open{ max-height: 60vh; }
+}
+
+/* ===== DESKTOP (garante inline no grande) ===== */
+@media (min-width: 901px){
+  .main-nav ul{ display: flex; gap: 32px; align-items: center; }
+}
+
+/*teste
+
+/* ===== HEADER DIMENSÃO ===== */
+.header-top{
+  position: relative;
+  min-height: 64px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+
+/* ===== BOTÃO HAMBÚRGUER ===== */
+.menu-toggle{
+  position:absolute; right:16px; top:50%;
+  transform: translateY(-50%);
+  width:44px; height:44px;
+  border:0; background:transparent; cursor:pointer;
+  display:none; z-index:60;
+}
+.menu-toggle .bar{
+  display:block; width:26px; height:2px; background:#fff;
+  margin:5px 0; transition: transform .25s, opacity .2s;
+}
+/* anima “X” */
+.menu-toggle.is-open .bar:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+.menu-toggle.is-open .bar:nth-child(2){ opacity:0; }
+.menu-toggle.is-open .bar:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
+/* ===== MENU MOBILE ===== */
+@media (max-width: 900px){
+  .menu-toggle{ display:block; }
+  .slogan{ display:none; } /* opcional */
+
+  .main-nav{
+    position:absolute; left:0; right:0; top:64px;
+    background:#0c3566;
+    overflow:hidden; max-height:0; transition:max-height .3s ease;
+    z-index:50; box-shadow: 0 6px 18px rgba(0,0,0,.18);
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .main-nav.is-open{ max-height:65vh; }
+
+  /* coluna; centralizado (troque para flex-start se quiser à esquerda) */
+  .main-nav ul{
+    display:flex !important; flex-direction:column !important;
+    align-items:center !important; gap:0 !important;
+    margin:0; padding:8px 0;
+  }
+  .main-nav li{ list-style:none; }
+  .main-nav a{
+    display:block !important; text-align:center !important;
+    padding:14px 20px; color:#fff; text-decoration:none; font-weight:600;
+    border-top:1px solid rgba(255,255,255,.06);
+    background:transparent !important; border-radius:0 !important;
+  }
+  .main-nav a:hover{ background:rgba(255,255,255,.06); }
+}
+
+/* ===== MENU DESKTOP (continua em linha) ===== */
+@media (min-width: 901px){
+  .main-nav ul{ display:flex; gap:32px; align-items:center; }
+}
+
+/* ===== OVERLAY ===== */
+.nav-overlay{
+  position:fixed; inset:0; background:rgba(0,0,0,.35);
+  opacity:0; pointer-events:none; transition:opacity .2s; z-index:45;
+}
+.nav-overlay.show{ opacity:1; pointer-events:auto; }
+body.menu-open{ overflow:hidden; }
+
+/* ===== BADGE (pílula “Convidado”) ===== */
+.auth-li { list-style: none; }
+.auth-badge{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 14px; border-radius:999px;
+  background:#EEF3FF; color:#111827; font-weight:700; line-height:1;
+  box-shadow: 0 1px 0 rgba(255,255,255,.4) inset, 0 0 0 1px rgba(255,255,255,.1);
+}
+
+/*teste 2
+
+/* ===== BOTÃO HAMBÚRGUER — 3 linhas garantidas ===== */
+.menu-toggle{
+  position:absolute; right:16px; top:50%;
+  transform: translateY(-50%);
+  width:44px; height:44px; border:0; cursor:pointer;
+  background: transparent;
+  display:none;          /* aparece só no mobile, ver @media abaixo */
+  z-index:60;
+
+  /* Desenha 3 linhas com CSS puro (sempre visíveis) */
+  background-image:
+    linear-gradient(#fff, #fff),   /* linha 1 (topo) */
+    linear-gradient(#fff, #fff),   /* linha 2 (meio) */
+    linear-gradient(#fff, #fff);   /* linha 3 (baixo) */
+  background-repeat: no-repeat;
+  background-size: 26px 2px, 26px 2px, 26px 2px;
+  background-position: 50% 14px, 50% 21px, 50% 28px;
+}
+
+/* Linhas para formar o X quando abrir */
+.menu-toggle::before,
+.menu-toggle::after{
+  content:"";
+  position:absolute; left:50%; top:50%;
+  width:26px; height:2px; background:#fff;
+  transform: translate(-50%, -50%) rotate(0deg);
+  opacity:0; transition: transform .25s, opacity .2s;
+}
+
+/* Estado ABERTO: vira X perfeito e some o hambúrguer */
+.menu-toggle.is-open{
+  background-image: none; /* esconde as 3 barras */
+}
+.menu-toggle.is-open::before{
+  opacity:1; transform: translate(-50%, -50%) rotate(45deg);
+}
+.menu-toggle.is-open::after{
+  opacity:1; transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 900px){
+  .menu-toggle{ display:block; }
+  .slogan{ display:none; } /* opcional */
+
+  .main-nav{
+    position:absolute; left:0; right:0; top:64px;
+    background:#0c3566; overflow:hidden; max-height:0;
+    transition:max-height .3s ease; z-index:50;
+    box-shadow:0 6px 18px rgba(0,0,0,.18);
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .main-nav.is-open{ max-height:65vh; }
+
+  /* Coluna (ajuste para esquerda/centro como preferir) */
+  .main-nav ul{
+    display:flex !important; flex-direction:column !important;
+    align-items:center !important;   /* troque p/ flex-start se quiser à ESQUERDA */
+    gap:0 !important; margin:0; padding:8px 0;
+  }
+  .main-nav li{ list-style:none; }
+  .main-nav a{
+    display:block !important; text-align:center !important; /* troque p/ left se quiser à ESQUERDA */
+    padding:14px 20px; color:#fff; text-decoration:none; font-weight:600;
+    border-top:1px solid rgba(255,255,255,.06);
+    background:transparent !important; border-radius:0 !important;
+  }
+  .main-nav a:hover{ background:rgba(255,255,255,.06); }
+}
+
+/* (mantém) overlay + trava de rolagem, badge, etc. — deixe como já está no seu CSS */

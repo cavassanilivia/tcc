@@ -18,20 +18,26 @@
 
 <header>
   <div class="header-top">
-    <a href="index.html" class="brand" aria-label="Página inicial Acess Path">
-      <img src="imagens/logo_access.png" alt="Logo Acess Path" class="logo" />
+    <a href="index.html" class="brand" aria-label="Página inicial Access Path">
+      <img src="imagens/logo_access.png" alt="Logo Access Path" class="logo" />
       <p class="slogan">Tecnologia que abre caminhos</p>
     </a>
 
-    <nav class="main-nav" aria-label="Principal">
+    <!-- nav normal (desktop) -->
+    <nav class="main-nav" id="mainMenu" aria-label="Principal">
       <ul>
-        <li><a class="speakable" href="index.html">Início</a></li>
-        <li><a class="speakable" href="Projeto.html">Projeto</a></li>
-        <li><a class="speakable" href="cadastro.html">Cadastro</a></li>
-        <li><a class="speakable" href="compra.html">Compra</a></li>
-        <li><a class="speakable" href="contato.html">Contato</a></li>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="Projeto.html">Projeto</a></li>
+        <li><a href="cadastro.html">Cadastro</a></li>
+        <li><a href="compra.html">Compra</a></li>
+        <li><a href="contato.html">Contato</a></li>
       </ul>
     </nav>
+
+    <!-- botão hambúrguer: 3 linhas -->
+    <button class="menu-toggle" id="menuToggle"
+        aria-label="Abrir menu" aria-controls="mainMenu" aria-expanded="false"></button>
+
   </div>
 </header>
 
@@ -155,9 +161,9 @@
       <!-- Coluna 3: Contato -->
       <div class="footer-col">
         <h4>Contato</h4>
-        <p>📧 <a href="mailto:projetosenai806@gmail.com">projetosenai806@gmail.com</a></p>
-        <p>📍 Itatiba - SP</p>
-        <p>☎ (11) 99999-9999</p>
+        <p> <a href="mailto:projetosenai806@gmail.com">projetosenai806@gmail.com</a></p>
+        <p> Itatiba - SP</p>
+        <p> (11) 99999-9999</p>
       </div>
 
       <!-- Coluna 4: Redes Sociais -->

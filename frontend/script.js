@@ -142,6 +142,49 @@
     }
   }
 
+  /* =============== Header: menu hambúrguer (mobile) =============== */
+function wireHamburger(){
+  const btn  = document.getElementById('menuToggle') || document.querySelector('.menu-toggle');
+  const menu = document.getElementById('mainMenu')   || document.querySelector('header .main-nav');
+  if (!btn || !menu) return;
+
+  // cria overlay (para fechar ao clicar fora)
+  let overlay = document.querySelector('.nav-overlay');
+  if (!overlay){
+    overlay = document.createElement('div');
+    overlay.className = 'nav-overlay';
+    document.body.appendChild(overlay);
+  }
+
+  btn.setAttribute('aria-controls', menu.id || 'mainMenu');
+  btn.setAttribute('aria-expanded', 'false');
+
+  const BREAKPOINT = 900;
+
+  function openMenu(){
+    menu.classList.add('is-open');
+    btn.classList.add('is-open');
+    btn.setAttribute('aria-expanded','true');
+    overlay.classList.add('show');
+    document.body.classList.add('menu-open');
+  }
+  function closeMenu(){
+    menu.classList.remove('is-open');
+    btn.classList.remove('is-open');
+    btn.setAttribute('aria-expanded','false');
+    overlay.classList.remove('show');
+    document.body.classList.remove('menu-open');
+  }
+  function toggle(){ (menu.classList.contains('is-open') ? closeMenu : openMenu)(); }
+
+  btn.addEventListener('click', toggle);
+  overlay.addEventListener('click', closeMenu);
+  menu.addEventListener('click', (e)=>{ if (e.target.tagName === 'A' && menu.classList.contains('is-open')) closeMenu(); });
+  document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape' && menu.classList.contains('is-open')) closeMenu(); });
+  window.addEventListener('resize', ()=>{ if (window.innerWidth > BREAKPOINT && menu.classList.contains('is-open')) closeMenu(); });
+}
+
+
   /* =============== Tabs: Cadastro / Login =============== */
   function wireTabs(){
     const tabSignup = document.getElementById("tab-signup");
@@ -495,7 +538,8 @@
   /* =============== Boot =============== */
   document.addEventListener("DOMContentLoaded", ()=>{
     ensureAuthBadge();
-    wireTabs();       // ✅ agora as abas funcionam
+    wireHamburger(); // ✅ ativa o menu mobile
+    wireTabs();       // ✅ abas
     wireSignup();
     wireLogin();
     wirePhoneMask();
