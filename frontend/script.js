@@ -22,7 +22,7 @@
   const API_BASE =
     (typeof window !== "undefined" && window.AP_API_BASE) ||
     (document.querySelector('meta[name="ap-api-base"]')?.getAttribute("content")) ||
-    "http://localhost:8080";
+    "http://localhost:8081";
 
   const ENDPOINTS = {
     signup:   "/api/usuarios",
