@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.2</version>
+        <version>3.5.6</version>
         <relativePath/>
     </parent>
 
@@ -18,7 +18,8 @@
     <description>Projeto: api de treinamento</description>
 
     <properties>
-        <java.version>21</java.version>
+        <!-- Use JDK 17 -->
+        <java.version>17</java.version>
     </properties>
 
     <dependencies>
@@ -49,20 +50,20 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Lombok (getters/setters automáticos) -->
+        <!-- Lombok (opcional) -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
 
-        <!-- 📧 Dependência para envio de e-mails -->
+        <!-- 📧 E-mail -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
-        <!-- 🔒 Dependência para criptografia com BCrypt -->
+        <!-- 🔒 BCrypt -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
